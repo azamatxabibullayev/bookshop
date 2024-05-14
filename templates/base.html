@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            margin: 20px;
+        }
+        .content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .login-link, .logout-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .login-link:hover, .logout-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Site</h1>
+    </header>
+    <nav>
+        <a href="{% url 'products:book-list' %}">Books</a>
+        <a href="{% url 'users:register' %}">Register</a>
+        <a href="{% url 'test' %}">Test</a>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'users:logout' %}" class="logout-link">Logout</a>
+        {% else %}
+            <a href="{% url 'users:login' %}" class="login-link">Login</a>
+        {% endif %}
+    </nav>
+    <div class="container">
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %} Books {% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .container {
+        margin: 20px;
+    }
+    .book-link {
+        display: block;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #333;
+    }
+    .book-link:hover {
+        background-color: #f0f0f0;
+    }
+    .add-book-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .add-book-link:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<body>
+<div class="container">
+    <h1>Books Page</h1>
+    <a href="{% url 'products:create-book' %}" class="add-book-link">Add Book</a>
+    <hr>
+
+    {% for b in book %}
+    <a href="{% url 'products:book-detail' b.pk %}" class="book-link">{{ b.title }}</a>
+    {% endfor %}
+</div>
+</body>
+{% endblock content %}
