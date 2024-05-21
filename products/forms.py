@@ -6,4 +6,10 @@ from products.models import Review
 class AddReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields = ['comment', 'star_given']
+        fields = ['comment', 'rating']
+
+
+class UpdateReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['comment', 'rating']

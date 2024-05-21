@@ -2,70 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} {% endblock %}</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
+        .messages {
+            list-style: none;
+            padding: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .messages li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .messages li:last-child {
+            border-bottom: none;
+        }
+        .messages li.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .messages li.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .messages li.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .messages li.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
         }
         nav {
-            background-color: #444;
+            background: #333;
+            color: #fff;
             padding: 10px 0;
             text-align: center;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 10px;
+            margin: 0 15px;
+            padding: 10px 15px;
+            transition: background 0.3s ease-in-out;
         }
         nav a:hover {
-            text-decoration: underline;
+            background: #555;
+            border-radius: 5px;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 20px 0;
         }
         .container {
-            margin: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
         }
-        .content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .login-link, .logout-link {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .login-link:hover, .logout-link:hover {
-            text-decoration: underline;
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 0;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Our Site</h1>
-    </header>
-    <nav>
-        <a href="{% url 'products:book-list' %}">Books</a>
-        <a href="{% url 'users:register' %}">Register</a>
-        <a href="{% url 'test' %}">Test</a>
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'users:logout' %}" class="logout-link">Logout</a>
-        {% else %}
-            <a href="{% url 'users:login' %}" class="login-link">Login</a>
-        {% endif %}
-    </nav>
-    <div class="container">
-        <div class="content">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li
+            {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+<hr>
+{% endif %}
+
+<nav>
+    <a href="{% url 'home:landing_page' %}">Home</a> /
+    <a href="{% url 'products:book_list' %}">Books</a> /
+    <a href="{% url 'users:register' %}">Register</a> /
+    <!-- <a href="{% url 'home:test' %}">Test</a> / -->
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'users:profile' %}">Profile</a> /
+    <a href="{% url 'users:logout' %}">Logout</a>
+    {% else %}
+    <a href="{% url 'users:login' %}">Login</a>
+    {% endif %}
+</nav>
+<div class="container">
+    {% block content %} {% endblock content %}
+</div>
 </body>
 </html>

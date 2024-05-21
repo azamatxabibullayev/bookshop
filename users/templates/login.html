@@ -1,62 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .container {
-            margin: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
+{% extends 'base.html' %}
+    {% block title %} Login page{% endblock %}
+
+{% block content %}
+
     <h1>Login Page</h1>
-    <form method="POST">
+    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        {{form.as_p}}
+        <button type="submit" >Submit</button>
     </form>
-</div>
-</body>
-</html>
+
+
+{% endblock content %}

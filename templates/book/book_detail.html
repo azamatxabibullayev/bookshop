@@ -1,78 +1,29 @@
-<head>
-    <meta charset="UTF-8">
-    <title>{{ book.title }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .container {
-            margin: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        img {
-            display: block;
-            margin: 0 auto;
-            border-radius: 5px;
-        }
-        h4 {
-            margin-bottom: 10px;
-        }
-        a {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        a:hover {
-            background-color: #0056b3;
-        }
-        h2 {
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-        h4 {
-            margin-bottom: 5px;
-        }
-        p {
-            margin-bottom: 20px;
-        }
-        hr {
-            border: none;
-            border-top: 1px solid #ccc;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>Name: {{ book.title }}</h1>
-    <img src="{{ book.image.url }}" height="200px"><br><br>
-    <h4>Description: {{ book.description }}</h4>
-    <h4>Price: {{ book.price }}</h4>
-    <h4>Pages: {{ book.page }}</h4>
-    <a href="{% url 'products:book-delete' book.pk %}">Delete</a>
-    <h2>Reviews</h2>
-    <a href="{% url 'products:add-review' book.pk %}">Add Review</a>
-    {% for review in reviews %}
-    <h4>{{ review.user.username }} | {{ review.star_given }}</h4>
-    <p>{{ review.comment }}</p>
-    <hr>
-    {% endfor %}
-</div>
-</body>
+{% extends "base.html" %}
+<title>{% block title %}{{ book.title }}{% endblock %} </title>
+
+{% block content %}
+<h1>{{ book.title }}</h1>
+<img src="{{ book.image.url }}" height="500px" alt="its">
+<h4>Description: {{book.description}}</h4>
+<h4>Price: {{book.price}}</h4>
+<h4>Page: {{book.page}}</h4>
 
 
+<hr>
+<hr>
+<h2>Reviews</h2>
+<a href="{% url 'products:add_review' book.pk %}">Add Review</a>
+{% for review in reviews %}
+<h4>{{ review.user.username }} | {{ review.rating }}</h4>
+<p>{{ review.comment }}</p>
+{% if user.is_authenticated and review.user == user %}
+<form method="post" action="{% url 'products:review_delete' review.pk %}">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+</form>
+<br>
+<button><a href="{% url 'products:review_update' review.pk  %}">Update</a></button>
+{% endif %}
+<hr>
+{% endfor %}
+{% endblock content %}
